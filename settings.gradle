@@ -1,0 +1,5 @@
+rootProject.name = 'musinsa-codi'
+include 'musinsa-codi-core'
+include 'musinsa-codi-api'
+include 'musinsa-codi-admin'
+

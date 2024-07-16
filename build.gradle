@@ -1,0 +1,99 @@
+buildscript {
+	ext {
+		springBootVersion = '3.3.1'
+	}
+	repositories {
+		mavenCentral()
+		maven { url 'https://plugins.gradle.org/m2/' }
+	}
+
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+		classpath "io.spring.gradle:dependency-management-plugin:1.1.5.RELEASE"
+	}
+
+	ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
+	println "########## active_profile = $profile"
+}
+
+subprojects {
+	apply plugin: 'java'
+	apply plugin: 'org.springframework.boot'
+	apply plugin: 'io.spring.dependency-management'
+
+	sourceCompatibility = '21'
+
+	repositories {
+		mavenCentral()
+	}
+
+	configurations {
+		compileOnly {
+			extendsFrom annotationProcessor
+		}
+
+	}
+
+	repositories {
+		mavenCentral()
+	}
+
+	dependencies {
+		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+//		runtimeOnly 'com.mysql:mysql-connector-j'
+		runtimeOnly 'com.h2database:h2'
+		implementation 'com.querydsl:querydsl-jpa:5.0.0:jakarta'
+		annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jakarta"
+		annotationProcessor "jakarta.persistence:jakarta.persistence-api"
+		annotationProcessor "jakarta.annotation:jakarta.annotation-api"
+
+
+
+		annotationProcessor 'org.projectlombok:lombok'
+		implementation 'org.mapstruct:mapstruct:1.5.3.Final'
+		annotationProcessor 'org.mapstruct:mapstruct-processor:1.5.3.Final'
+		annotationProcessor 'org.projectlombok:lombok-mapstruct-binding:0.2.0'
+
+		developmentOnly 'org.springframework.boot:spring-boot-devtools'
+		implementation 'org.springframework.boot:spring-boot-starter-test'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
+		implementation 'p6spy:p6spy:3.9.1'
+		implementation 'com.github.gavlyukovskiy:datasource-decorator-spring-boot-autoconfigure:1.9.0'
+
+		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.3'
+		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.3'
+
+	}
+
+	test {
+		useJUnitPlatform()
+
+//		testLogging {
+//			events = ["passed", "failed"]
+//		}
+//		systemProperty "spring.profiles.active", profile
+//		exclude '**/unit/**'  //단위테스트는 제외
+	}
+}
+
+project(':musinsa-codi-api') {
+	dependencies {
+		implementation project(':musinsa-codi-core')
+	}
+}
+
+project(':musinsa-codi-admin') {
+	dependencies {
+		implementation project(':musinsa-codi-core')
+	}
+}
+
+
+project(':musinsa-codi-core') {
+	bootJar { enabled = false }
+	jar { enabled = true }
+}
