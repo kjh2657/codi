@@ -2,6 +2,7 @@
 
 
  1) 스키마 구조
+    
  - 상품, 브랜드, 카테고리 3개의 테이블이 존재
  - 상품에는 브랜드ID, 카테고리ID 등 다른 테이블과 조인을 위한 키 값이 존재 
  - 문제에 나온 A,B... 는 브랜드 이름으로 해석하여 테이블 설계
@@ -9,6 +10,7 @@
 
 
  2) 프로젝트 구조
+    
  - springboot 3.3.1 java 21로 프로젝트 진행
  - 프로젝트는 admin, api(service api), core 3개의 모듈로 존재
  - 각각의 yml을 따로 두지 않고 core yml을 우선적으로 참조하도록 구현
@@ -19,9 +21,11 @@
  - 포트는 api : 8080, admin : 808
 
  3) 실행방법
+    
  - VM Option : -Dspring.profiles.active=local 추가 후 구동 
 
- 4) API 
+ 4) API
+    
  4-1 카테고리 별로 최저가격인 브랜드와 가격을 조회하고 총액
   - @Query(native=false)를 통해 window fuction을 사용하고 직접 Dto에 projection 하여 사용 
  4-2 단일 브랜드로 전체 카테고리 상품을 구매할 경우 최저가격인 브랜드와 총액
