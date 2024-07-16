@@ -18,7 +18,7 @@
  - entity에 접근할 수 있는 객체인 command를 두어, entity에 접근하여 CRUD 실행
  - 잘못된 요청은 Valid를 통해 제어하고, 비지니스 로직에 대한 예외는 Error Code와 Advice로 제어
  - ./data에 h2 데이터베이스가 존재하고, ./ddl에 테이블 dml과 데이터 존재
- - 포트는 api : 8080, admin : 808
+ - 포트는 api : 8080, admin : 8081
 
  3) 실행방법
     
@@ -27,13 +27,16 @@
  4) API
     
  4-1 카테고리 별로 최저가격인 브랜드와 가격을 조회하고 총액
-  - @Query(native=false)를 통해 window fuction을 사용하고 직접 Dto에 projection 하여 사용 
+  - @Query(native=false)를 통해 window fuction을 사용하고 직접 Dto에 projection 하여 사용
+    
  4-2 단일 브랜드로 전체 카테고리 상품을 구매할 경우 최저가격인 브랜드와 총액
   - @Query(native=false)를 통해 window fuction을 사용하고 직접 Dto에 projection 하여 사용
   - 전체 카테고리에 대한 상품이 존재해야하므로 category 테이블의 모든 카테고리가 존재하는지 확인 후, 카테고리, 브랜드이름, 전체금액을 1차적으로 조회
   - 해당 브랜드의 각 카테고리별 최저가 상품 조회 후 response 세팅
+
  4-3 특정 카테고리에서 최저가격 브랜드와 최고가격 브랜드를 확인하고 각 브랜드 상품의 가격
   - 카테 고리별 최저가 최고가를 각각 querydsl로 조회하여 값 세팅
+    
  4-4 새로운 브랜드를 등록하고, 모든 브랜드의 상품을 추가, 변경, 삭제
   4-4-1 브랜드
    - 브랜드 단일조회 / 등록 / 수정 / 삭제 / 리스트 조회 구현
